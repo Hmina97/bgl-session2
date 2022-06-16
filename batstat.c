@@ -1,10 +1,23 @@
 
 #include <stdio.h>
 #include <string.h>
-
+#include <math.h>
 #define MAX_LENGTH 10
 
 
+
+//vérifier si le nombre d'argument egale à 2 si le retour est -1 alors il y a un erreur sinon y a pas d'erreur
+static int check_args(int argc, char * argv[]){
+  if (argc != 3) {
+    return -1;
+  }
+
+  int n = strtol(argv[1], NULL, 10);
+  if (n <= 0) {
+    return -1;
+  }
+  return n;
+}
 float average(float tab[], int n ){
     
     float sum = 0;
@@ -14,23 +27,45 @@ float average(float tab[], int n ){
       sum += tab[i]; 
     }
     
-     moy = sum/n;
+     moy = sum/n;// la moyenne de tableau tab
      
-     printf("Average = %f", moy);
+    printf("Average = %f", moy);
 
+    return moy;
 
 }
 
+
+float ec_type(float tab[],int n){
+
+    float accum = 0;
+    float m = average(tab,n);
+    for(int i = 0; i<n;i++){
+     
+      accum += (tab[i] - m) * (tab[i] - m);
+
+
+    }
+    double stdev = sqrt(accum / n-1);//l'écart type
+
+     
+    return 
+}
 
 
 
 void  main(int argc, char * argv[])
 {
+
+
+
+
+
   //----------------------- ouverture du fichier de données CSV ------------------------------
     FILE* fp = fopen("Dataset1.csv", "r");
  
     if (!fp)
-        printf("Can't open file\n");
+        printf("Ouverture fichier impossible %s\n !",argv[0]);
  
     else {
         
@@ -57,8 +92,7 @@ void  main(int argc, char * argv[])
              }
 
                
- 
-            // Splitting the data
+
             char* value = strtok(buffer, ",");
  
             while (value) {
